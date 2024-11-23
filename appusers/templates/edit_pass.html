@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+    {{block.super}}
+    {% block title %}
+    <title> Reset Password Page</title>
+    {% endblock%}
+{% endblock %}
+
+
+
+{% block navbar %}
+    {{block.super}}
+{% endblock%}
+
+
+{% block main %}
+    <div class="container">
+        <h1 class="text-center text-dark p-3">Reset Your Password</h1>
+        <form method="post" style="width: 50%; margin: auto" novalidate>
+            {% csrf_token %}
+            <!--{{form|crispy}} -->
+            {% for field in form %}
+            {{ field.label }}{% if field.field.required %}<span style="color:black; font-weight:bold">*</span>{% endif %}
+            {{field}}
+            {{field.errors}}
+            {% endfor %}
+            <input type="submit" value="Reset" class="btn btn-primary mt-3">
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="container">
+        {{ block.super }}
+    </div>
+{% endblock %}

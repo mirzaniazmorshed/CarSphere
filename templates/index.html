@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+{{ block.super }}
+{% block title %}
+<title>Home Page</title>
+{% endblock %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block navbar %}
+{{ block.super }}
+{% endblock %}
+
+{% block main %}
+<div class="container py-5">
+    <div class="car-showup mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2>Welcome to CarSphere</h2>
+                <p style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6;">
+                    Find the perfect car effortlessly at CarSphere. From brand-new models to trusted pre-owned vehicles, we bring you top choices from renowned manufacturers. Compare features, explore options, and enjoy a hassle-free buying experience tailored just for you. Begin your journey with CarSphere today!
+                </p>
+                
+                <a href="#carlist" class="btn btn-primary mt-3">Explore Cars</a>
+            </div>
+            <div class="col-md-6">
+                {% comment %} <img src="{% static 'car.jpg' %}" alt="car-image" class="img-fluid rounded"> {% endcomment %}
+                <img src="{% static 'car.jpg' %}?v={{ now|date:'U' }}" alt="car-image" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+
+    <div class="car-brands text-center mb-4">
+        <h3>Browse by Brand</h3>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+            <a href="{% url 'homepage' %}#carlist" 
+               class="btn btn-{% if search == 'all' %}info{% else %}outline-info{% endif %}">
+               All
+            </a>
+            {% for brand in brands %}
+            <a href="{% url 'brand_search' brand.id %}#carlist" 
+               class="btn btn-{% if search == brand.brand_name %}info{% else %}outline-info{% endif %}">
+               {{ brand.brand_name }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="car-list" id="carlist">
+        <h4 class="mb-4 text-center">Total Cars Found: {{ cars|length }}</h4>
+        <div class="row g-4">
+            {% for car in cars %}
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.title }}" height="200" style="object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.name }}</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Price: {{ car.price }}</li>
+                            <li class="list-group-item">Brand: {{ car.brand.brand_name }}</li>
+                            <li class="list-group-item">Model: {{ car.title }}</li>
+                            <li class="list-group-item">Stock: {{ car.quantity }}</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'car_details' car.id %}" class="btn btn-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No cars available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="container py-3">
+    {{ block.super }}
+</div>
+{% endblock %}

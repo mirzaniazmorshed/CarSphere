@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+    {{ block.super }}
+    {% block title %}
+    <title>Profile Page</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block navbar %}
+    {{ block.super }}
+{% endblock %}
+
+{% block main %}
+    <div class="container profile mt-5">
+        <div class="row justify-content-center">
+            <!-- Profile Section -->
+            <div class="col-md-6">
+                <div class="text-center">
+                    <h1 class="text-primary">{{ cur_user.first_name }} {{ cur_user.last_name }}</h1>
+                    <h4 class="text-muted mb-4">Your Profile</h4>
+                    <ul class="list-unstyled">
+                        <li><strong>Username:</strong> {{ cur_user.username }}</li>
+                        <li><strong>First Name:</strong> {{ cur_user.first_name }}</li>
+                        <li><strong>Last Name:</strong> {{ cur_user.last_name }}</li>
+                        <li><strong>Email:</strong> {{ cur_user.email }}</li>
+                    </ul>
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{% url 'user_edit' cur_user.id %}" class="btn btn-outline-info">Update Profile</a>
+                        <a href="{% url 'userpass_edit' %}" class="btn btn-danger">Reset Password</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="col-md-8 mt-5">
+                {% if carts|length > 0 %}
+                    <h3 class="text-center text-primary mb-4">Your Carts ({{ carts|length }})</h3>
+                {% endif %}
+                <div class="row justify-content-center">
+                    {% for cart in carts %}
+                        <div class="col-md-4 mb-4">
+                            <div class="text-center">
+                                <img class="img-fluid" src="{{ cart.image }}" alt="{{ cart.title }}" style="max-height: 200px; object-fit: cover;">
+                                <h5 class="card-title text-dark mt-2">{{ cart.title }}</h5>
+                                <p class="card-text text-muted">{{ cart.description | truncatewords:10 }}</p>
+                                <h5 class="card-subtitle text-dark">Price: ${{ cart.price }}</h5>
+                                <h5 class="card-subtitle text-muted">Brand: {{ cart.brand }}</h5>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="container">
+        {{ block.super }}
+    </div>
+{% endblock %}

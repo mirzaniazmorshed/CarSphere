@@ -1,0 +1,18 @@
+.car-showup{
+    margin: 50px 5px
+}
+.car-showup p{
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.car-list h4{
+    margin: 15px 0
+}
+.comment{
+    border-top: 1px solid gray;
+    margin: 5px 2px
+}
+.profile{
+    margin-top: 150px
+}
